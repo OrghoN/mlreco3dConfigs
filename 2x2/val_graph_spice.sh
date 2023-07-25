@@ -13,4 +13,4 @@
 #SBATCH --time=36:00:00 
 #SBATCH --gpus a100:1
 
-singularity exec --bind /sdf/group/neutrino/anoronyo/,/sdf/data/neutrino/kterao/dunend_train_prod/ --nv /sdf/group/neutrino/images/develop.sif bash -c "python3 lartpc_mlreco3d/bin/run.py graph_spice_val.cfg"
+singularity exec --bind $APP_DIR,/sdf/data/neutrino/kterao/dunend_train_prod/ --nv /sdf/group/neutrino/images/develop.sif bash -c "python3 $MLRECO3D_PATH/bin/run.py graph_spice_val.cfg"
