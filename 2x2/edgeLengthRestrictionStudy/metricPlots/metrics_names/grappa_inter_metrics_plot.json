@@ -1,0 +1,82 @@
+[
+    {
+	"log_dir" : "logs/",
+	"plot_dir" : "plots/metrics/grappa_inter/",
+	"models" : ["grappa_inter/50_edge_length", "grappa_inter/no_edge_length_restriction"],
+	"file_name" : "grappa_inter_edge_loss",
+	"metrics" : ["edge_loss"],
+	"limits" : [0.0,3.0],
+	"print_min" : true,
+	"print_max" : false
+    },
+    {
+	"log_dir" : "logs/",
+	"plot_dir" : "plots/metrics/grappa_inter/",
+	"models" : ["grappa_inter/50_edge_length", "grappa_inter/no_edge_length_restriction"],
+	"file_name" : "grappa_inter_edge_accuracy",
+	"metrics" : ["edge_accuracy"],
+	"limits" : [0.0,1.0],
+	"print_min" : false,
+	"print_max" : true
+    },
+    {
+	"log_dir" : "logs/",
+	"plot_dir" : "plots/metrics/grappa_inter/",
+	"models" : ["grappa_inter/50_edge_length", "grappa_inter/no_edge_length_restriction"],
+	"file_name" : "grappa_inter_type_loss",
+	"metrics" : ["type_loss"],
+	"limits" : [0.0,3.0],
+	"print_min" : true,
+	"print_max" : false
+    },
+    {
+	"log_dir" : "logs/",
+	"plot_dir" : "plots/metrics/grappa_inter/",
+	"models" : ["grappa_inter/50_edge_length", "grappa_inter/no_edge_length_restriction"],
+	"file_name" : "grappa_inter_type_accuracy",
+	"metrics" : ["type_accuracy"],
+	"limits" : [0.0,1.0],
+	"print_min" : false,
+	"print_max" : true
+    },
+    {
+	"log_dir" : "logs/",
+	"plot_dir" : "plots/metrics/grappa_inter/",
+	"models" : ["grappa_inter/50_edge_length", "grappa_inter/no_edge_length_restriction"],
+	"file_name" : "grappa_inter_vtx_score_loss",
+	"metrics" : ["vtx_score_loss"],
+	"limits" : [0.0,3.0],
+	"print_min" : true,
+	"print_max" : false
+    },
+    {
+	"log_dir" : "logs/",
+	"plot_dir" : "plots/metrics/grappa_inter/",
+	"models" : ["grappa_inter/50_edge_length", "grappa_inter/no_edge_length_restriction"],
+	"file_name" : "grappa_inter_vtx_score_accuracy",
+	"metrics" : ["vtx_score_accuracy"],
+	"limits" : [0.0,1.0],
+	"print_min" : false,
+	"print_max" : true
+    },
+    {
+	"log_dir" : "logs/",
+	"plot_dir" : "plots/metrics/grappa_inter/",
+	"models" : ["grappa_inter/50_edge_length", "grappa_inter/no_edge_length_restriction"],
+	"file_name" : "grappa_inter_loss",
+	"metrics" : ["loss"],
+	"limits" : [0.0,3.0],
+	"print_min" : true,
+	"print_max" : false
+    },
+    {
+	"log_dir" : "logs/",
+	"plot_dir" : "plots/metrics/grappa_inter/",
+	"models" : ["grappa_inter/50_edge_length", "grappa_inter/no_edge_length_restriction"],
+	"file_name" : "grappa_inter_accuracy",
+	"metrics" : ["accuracy"],
+	"limits" : [0.0,1.0],
+	"print_min" : false,
+	"print_max" : true
+    }
+]

@@ -1,0 +1,42 @@
+[
+    {
+	"log_dir" : "logs/",
+	"plot_dir" : "plots/metrics/grappa_track/",
+	"models" : ["grappa_track/50_edge_length", "grappa_track/no_edge_length_restriction"],
+	"file_name" : "grappa_track_edge_loss",
+	"metrics" : ["edge_loss"],
+	"limits" : [0.0,3.0],
+	"print_min" : true,
+	"print_max" : false
+    },
+    {
+	"log_dir" : "logs/",
+	"plot_dir" : "plots/metrics/grappa_track/",
+	"models" : ["grappa_track/50_edge_length", "grappa_track/no_edge_length_restriction"],
+	"file_name" : "grappa_track_edge_accuracy",
+	"metrics" : ["edge_accuracy"],
+	"limits" : [0.0,1.0],
+	"print_min" : false,
+	"print_max" : true
+    },   
+    {
+	"log_dir" : "logs/",
+	"plot_dir" : "plots/metrics/grappa_track/",
+	"models" : ["grappa_track/50_edge_length", "grappa_track/no_edge_length_restriction"],
+	"file_name" : "grappa_track_loss",
+	"metrics" : ["loss"],
+	"limits" : [0.0,3.0],
+	"print_min" : true,
+	"print_max" : false
+    },
+    {
+	"log_dir" : "logs/",
+	"plot_dir" : "plots/metrics/grappa_track/",
+	"models" : ["grappa_track/50_edge_length", "grappa_track/no_edge_length_restriction"],
+	"file_name" : "grappa_track_accuracy",
+	"metrics" : ["accuracy"],
+	"limits" : [0.0,1.0],
+	"print_min" : false,
+	"print_max" : true
+    }
+]

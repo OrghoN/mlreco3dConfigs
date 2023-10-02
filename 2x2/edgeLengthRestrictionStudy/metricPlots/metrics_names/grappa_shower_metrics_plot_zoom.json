@@ -1,0 +1,62 @@
+[
+    {
+	"log_dir" : "logs/",
+	"plot_dir" : "plots/metrics/grappa_shower/",
+	"models" : ["grappa_shower/50_edge_length", "grappa_shower/no_edge_length_restriction"],
+	"file_name" : "grappa_shower_edge_loss_zoom",
+	"metrics" : ["edge_loss"],
+	"limits" : [0.20,0.30],
+	"print_min" : true,
+	"print_max" : false
+    },
+    {
+	"log_dir" : "logs/",
+	"plot_dir" : "plots/metrics/grappa_shower/",
+	"models" : ["grappa_shower/50_edge_length", "grappa_shower/no_edge_length_restriction"],
+	"file_name" : "grappa_shower_edge_accuracy_zoom",
+	"metrics" : ["edge_accuracy"],
+	"limits" : [0.890,0.950],
+	"print_min" : false,
+	"print_max" : true
+    },
+    {
+	"log_dir" : "logs/",
+	"plot_dir" : "plots/metrics/grappa_shower/",
+	"models" : ["grappa_shower/50_edge_length", "grappa_shower/no_edge_length_restriction"],
+	"file_name" : "grappa_shower_node_loss_zoom",
+	"metrics" : ["node_loss"],
+	"limits" : [0.20,0.40],
+	"print_min" : true,
+	"print_max" : false
+    },
+    {
+	"log_dir" : "logs/",
+	"plot_dir" : "plots/metrics/grappa_shower/",
+	"models" : ["grappa_shower/50_edge_length", "grappa_shower/no_edge_length_restriction"],
+	"file_name" : "grappa_shower_node_accuracy_zoom",
+	"metrics" : ["node_accuracy"],
+	"limits" : [0.890,0.950],
+	"print_min" : false,
+	"print_max" : true
+    },    
+    {
+	"log_dir" : "logs/",
+	"plot_dir" : "plots/metrics/grappa_shower/",
+	"models" : ["grappa_shower/50_edge_length", "grappa_shower/no_edge_length_restriction"],
+	"file_name" : "grappa_shower_loss_zoom",
+	"metrics" : ["loss"],
+	"limits" : [0.20,0.40],
+	"print_min" : true,
+	"print_max" : false
+    },
+    {
+	"log_dir" : "logs/",
+	"plot_dir" : "plots/metrics/grappa_shower/",
+	"models" : ["grappa_shower/50_edge_length", "grappa_shower/no_edge_length_restriction"],
+	"file_name" : "grappa_shower_accuracy_zoom",
+	"metrics" : ["accuracy"],
+	"limits" : [0.890,0.950],
+	"print_min" : false,
+	"print_max" : true
+    }
+]
