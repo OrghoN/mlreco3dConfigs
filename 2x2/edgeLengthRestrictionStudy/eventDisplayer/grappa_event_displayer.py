@@ -21,7 +21,7 @@ from mlreco.visualization.gnn import network_topology
 from mlreco.visualization.points import scatter_points
 
 from mlreco.visualization.plotly_layouts import plotly_layout3d
-from mlreco.visualization.plotly_layouts import high_contrast_colorscale
+#from mlreco.visualization.plotly_layouts import high_contrast_colorscale
 
 from plotly import graph_objs as go
 
@@ -31,15 +31,31 @@ from scipy.special import softmax
 
 #File Paths
 
-grappa_shower_paths = {"cfg_path" : "train_grappa_shower.cfg",
-                       "dataset_path" : "/sdf/data/neutrino/kterao/dunend_train_prod/test_sample/ndlar-2023-02-15-test.root",
-                       "model_path" : "weights/grappa_shower/batch_size_32/snapshot-37999.ckpt"}
-grappa_track_paths = {"cfg_path" : "train_grappa_track.cfg",
-                       "dataset_path" : "/sdf/data/neutrino/kterao/dunend_train_prod/test_sample/ndlar-2023-02-15-test.root",
-                       "model_path" : "weights/grappa_track/batch_size_32/snapshot-7999.ckpt"}
-grappa_inter_paths = {"cfg_path" : "train_grappa_inter.cfg",
-                       "dataset_path" : "/sdf/data/neutrino/kterao/dunend_train_prod/test_sample/ndlar-2023-02-15-test.root",
-                       "model_path" : "weights/grappa_inter/batch_size_32/snapshot-23999.ckpt"}
+fifty_shower_paths = {"cfg_path" : "../50Restriction/grappa_shower.cfg",
+                       "dataset_path" : "/sdf/data/neutrino/kterao/dunend_train_prod/prod2x2_v0_1_larnd2supera/combined/test.root",
+                       "model_path" : "../50Restriction/weights/grappa_shower/50_edge_length/snapshot-11499.ckpt",
+                       "dir" : "50Restriction"}
+fifty_track_paths = {"cfg_path" : "../50Restriction/grappa_track.cfg",
+                       "dataset_path" : "/sdf/data/neutrino/kterao/dunend_train_prod/prod2x2_v0_1_larnd2supera/combined/test.root",
+                       "model_path" : "../50Restriction/weights/grappa_track/50_edge_length/snapshot-10999.ckpt",
+                       "dir" : "50Restriction"}
+fifty_inter_paths = {"cfg_path" : "../50Restriction/grappa_inter.cfg",
+                       "dataset_path" : "/sdf/data/neutrino/kterao/dunend_train_prod/prod2x2_v0_1_larnd2supera/combined/test.root",
+                       "model_path" : "../50Restriction/weights/grappa_inter/50_edge_length/snapshot-8499.ckpt",
+                       "dir" : "50Restriction"}
+
+no_shower_paths = {"cfg_path" : "../noRestriction/grappa_shower.cfg",
+                       "dataset_path" : "/sdf/data/neutrino/kterao/dunend_train_prod/prod2x2_v0_1_larnd2supera/combined/test.root",
+                       "model_path" : "../noRestriction/weights/grappa_shower/no_edge_length_restriction/snapshot-9999.ckpt",
+                       "dir" : "noRestriction"}
+no_track_paths = {"cfg_path" : "../noRestriction/grappa_track.cfg",
+                       "dataset_path" : "/sdf/data/neutrino/kterao/dunend_train_prod/prod2x2_v0_1_larnd2supera/combined/test.root",
+                       "model_path" : "../noRestriction/weights/grappa_track/no_edge_length_restriction/snapshot-999.ckpt",
+                       "dir" : "noRestriction"}
+no_inter_paths = {"cfg_path" : "../noRestriction/grappa_inter.cfg",
+                       "dataset_path" : "/sdf/data/neutrino/kterao/dunend_train_prod/prod2x2_v0_1_larnd2supera/combined/test.root",
+                       "model_path" : "../noRestriction/weights/grappa_inter/no_edge_length_restriction/snapshot-4499.ckpt",
+                       "dir" : "noRestriction"}
 
 def prep_cfg(cfg_path, dataset_path, model_path):
     cfg = get_inference_cfg(cfg_path=cfg_path, batch_size=1, num_workers=0)
@@ -92,16 +108,16 @@ def create_grappa_shower_truth(event, output, graph):
     cluster_label = event['input_data'][0]
 
     # Draw fragments
-    graph += network_topology(event['input_data'][0][:,1:4], output['clusts'][0], clust_labels=np.arange(len(output['clusts'][0])), colorscale=high_contrast_colorscale(), markersize=2)
+    graph += network_topology(event['input_data'][0][:,1:4], output['clusts'][0], clust_labels=np.arange(len(output['clusts'][0])), markersize=2)
     graph[-1]['name'] = 'Shower Fragments'
 
     # Draw shower truth info
     shower_shapes = get_cluster_label(event['input_data'][0], output['clusts'][0], -1)
     shower_labels = np.unique(get_cluster_label(event['input_data'][0], output['clusts'][0], 6), return_inverse=True)[-1]
     shower_primary_labels = np.unique(get_cluster_label(event['input_data'][0], output['clusts'][0], 10), return_inverse=True)[-1]
-    graph += network_topology(event['input_data'][0][:,1:4], output['clusts'][0], clust_labels=shower_shapes, colorscale=high_contrast_colorscale(), markersize=2)
+    graph += network_topology(event['input_data'][0][:,1:4], output['clusts'][0], clust_labels=shower_shapes, markersize=2)
     graph[-1]['name'] = 'Shower Semantics'
-    graph += network_topology(event['input_data'][0][:,1:4], output['clusts'][0], clust_labels=shower_labels, colorscale=high_contrast_colorscale(), markersize=2)
+    graph += network_topology(event['input_data'][0][:,1:4], output['clusts'][0], clust_labels=shower_labels, markersize=2)
     graph[-1]['name'] = 'Shower Labels'
     graph += network_topology(event['input_data'][0][:,1:4], output['clusts'][0], clust_labels=shower_primary_labels, colorscale='Portland', cmin=0, cmax=1, markersize=2)
     graph[-1]['name'] = 'Shower Primary Labels'
@@ -116,7 +132,7 @@ def create_grappa_shower_prediction(event, output, graph):
     shower_primary_preds = softmax(output['node_pred'][0], axis=1)[:,-1]
     shower_edge_mask = np.argmax(output['edge_pred'][0], axis=-1).astype(bool)
     shower_edge_index = output['edge_index'][0][shower_edge_mask]
-    graph += network_topology(event['input_data'][0][:,1:4], output['clusts'][0], shower_edge_index, clust_labels=shower_preds, colorscale=high_contrast_colorscale(), markersize=2)
+    graph += network_topology(event['input_data'][0][:,1:4], output['clusts'][0], shower_edge_index, clust_labels=shower_preds, markersize=2)
     graph[-2]['name'] = 'Shower Predictions'
     graph[-1]['name'] = 'Shower Edge Predictions'
     graph += network_topology(event['input_data'][0][:,1:4], output['clusts'][0], clust_labels=shower_primary_preds, colorscale='Portland', cmin=0, cmax=1, markersize=2)
@@ -133,12 +149,12 @@ def create_grappa_track_truth(event, output, graph):
 
     # Draw fragments
     graph = []
-    graph += network_topology(event['input_data'][0][:,1:4], output['clusts'][0], clust_labels=np.arange(len(output['clusts'][0])), colorscale=high_contrast_colorscale(), markersize=2)
+    graph += network_topology(event['input_data'][0][:,1:4], output['clusts'][0], clust_labels=np.arange(len(output['clusts'][0])), markersize=2)
     graph[-1]['name'] = 'Track Fragments'
 
     # Draw track truth info
     track_labels = np.unique(get_cluster_label(event['input_data'][0], output['clusts'][0], 6), return_inverse=True)[-1]
-    graph += network_topology(event['input_data'][0][:,1:4], output['clusts'][0], clust_labels=track_labels, colorscale=high_contrast_colorscale(), markersize=2)
+    graph += network_topology(event['input_data'][0][:,1:4], output['clusts'][0], clust_labels=track_labels, markersize=2)
     graph[-1]['name'] = 'Track Labels'
 
     return graph
@@ -150,7 +166,7 @@ def create_grappa_track_prediction(event, output, graph):
     track_preds = np.unique(node_assignment_score(output['edge_index'][0], output['edge_pred'][0], len(output['clusts'][0])), return_inverse=True)[-1]
     track_edge_mask = np.argmax(output['edge_pred'][0], axis=-1).astype(bool)
     track_edge_index = output['edge_index'][0][track_edge_mask]
-    graph += network_topology(event['input_data'][0][:,1:4], output['clusts'][0], track_edge_index, clust_labels=track_preds, colorscale=high_contrast_colorscale(), markersize=2)
+    graph += network_topology(event['input_data'][0][:,1:4], output['clusts'][0], track_edge_index, clust_labels=track_preds, markersize=2)
     graph[-2]['name'] = 'Track Predictions'
     graph[-1]['name'] = 'Track Edge Predictions'
 
@@ -202,7 +218,7 @@ def create_grappa_inter_particle_classification(event, output, graph):
     primary_labels = get_cluster_label(cluster_label, output['clusts'][0], column=-2)
 
     # Draw fragments
-    graph += network_topology(event['input_data'][0][:,1:4], output['clusts'][0], clust_labels=np.arange(len(output['clusts'][0])), colorscale=high_contrast_colorscale(), cmin=0, cmax=len(output['clusts'][0]), markersize=2)
+    graph += network_topology(event['input_data'][0][:,1:4], output['clusts'][0], clust_labels=np.arange(len(output['clusts'][0])), cmin=0, cmax=len(output['clusts'][0]), markersize=2)
     graph[-1]['name'] = 'Particles'
 
     # Draw particle classification truth info
@@ -222,7 +238,7 @@ def create_grappa_inter_particle_classification(event, output, graph):
     graph[-1]['name'] = 'Primary Predictions'
 
     # vertex_preds = output['node_pred_vtx'][0][primary_mask,:3] * 6144
-    # graph += scatter_points(vertex_preds, color=np.arange(len(output['clusts'][0]))[primary_mask], colorscale=high_contrast_colorscale(), cmin=0, cmax=len(output['clusts'][0]), markersize=7)
+    # graph += scatter_points(vertex_preds, color=np.arange(len(output['clusts'][0]))[primary_mask], cmin=0, cmax=len(output['clusts'][0]), markersize=7)
     # graph[-1]['name'] = 'Vertex predictions'
 
     return graph
@@ -232,21 +248,21 @@ def create_grappa_inter_interaction_clustering(event, output, graph):
     cluster_label = event['input_data'][0]
 
     # Draw fragments
-    graph += network_topology(event['input_data'][0][:,1:4], output['clusts'][0], clust_labels=np.arange(len(output['clusts'][0])), colorscale=high_contrast_colorscale(), markersize=2)
+    graph += network_topology(event['input_data'][0][:,1:4], output['clusts'][0], clust_labels=np.arange(len(output['clusts'][0])), markersize=2)
     graph[-1]['name'] = 'Particles'
 
     # Draw interaction clustering truth info
     inter_labels = np.unique(get_cluster_label(event['input_data'][0], output['clusts'][0], 7), return_inverse=True)[-1]
-    graph += network_topology(event['input_data'][0][:,1:4], output['clusts'][0], clust_labels=inter_labels, colorscale=high_contrast_colorscale(), markersize=2)
+    graph += network_topology(event['input_data'][0][:,1:4], output['clusts'][0], clust_labels=inter_labels, markersize=2)
     graph[-1]['name'] = 'Interaction Labels'
 
     # Draw interaction clustering predictions
     inter_preds = np.unique(node_assignment_score(output['edge_index'][0], output['edge_pred'][0], len(output['clusts'][0])), return_inverse=True)[-1]
-    graph += network_topology(event['input_data'][0][:,1:4], output['clusts'][0], clust_labels=inter_preds, colorscale=high_contrast_colorscale(), markersize=2)
+    graph += network_topology(event['input_data'][0][:,1:4], output['clusts'][0], clust_labels=inter_preds, markersize=2)
     graph[-1]['name'] = 'Interaction Predictions'
     return graph
 
-def draw_grappa_shower_event(cfg_path, dataset_path, model_path, event_id):
+def draw_grappa_shower_event(cfg_path, dataset_path, model_path, event_id, dir):
     cfg = prep_cfg(cfg_path, dataset_path, model_path)
     event, output = instantiate_handlers(cfg, event_id)
 
@@ -255,14 +271,14 @@ def draw_grappa_shower_event(cfg_path, dataset_path, model_path, event_id):
     graph = []
 
     graph = create_grappa_shower_truth(event, output, graph)
-    fig = save_graph(graph, layout, f"plots/events/grappa_shower/truth/event_{event_id}.html")
+    fig = save_graph(graph, layout, f"plots/events/grappa_shower/truth/{dir}/event_{event_id}.html")
 
     graph = create_grappa_shower_prediction(event, output, graph)
-    fig = save_graph(graph, layout, f"plots/events/grappa_shower/prediction/event_{event_id}.html")
+    fig = save_graph(graph, layout, f"plots/events/grappa_shower/prediction/{dir}/event_{event_id}.html")
 
     
     return fig
-def draw_grappa_track_event(cfg_path, dataset_path, model_path, event_id):
+def draw_grappa_track_event(cfg_path, dataset_path, model_path, event_id, dir):
     cfg = prep_cfg(cfg_path, dataset_path, model_path)
     event, output = instantiate_handlers(cfg, event_id)
 
@@ -271,14 +287,14 @@ def draw_grappa_track_event(cfg_path, dataset_path, model_path, event_id):
     graph = []
 
     graph = create_grappa_track_truth(event, output, graph)
-    fig = save_graph(graph, layout, f"plots/events/grappa_track/truth/event_{event_id}.html")
+    fig = save_graph(graph, layout, f"plots/events/grappa_track/truth/{dir}/event_{event_id}.html")
 
     graph = create_grappa_track_prediction(event, output, graph)
-    fig = save_graph(graph, layout, f"plots/events/grappa_track/prediction/event_{event_id}.html")
+    fig = save_graph(graph, layout, f"plots/events/grappa_track/prediction/{dir}/event_{event_id}.html")
 
     return fig
 
-def draw_grappa_inter_event(cfg_path, dataset_path, model_path, event_id):
+def draw_grappa_inter_event(cfg_path, dataset_path, model_path, event_id, dir):
     cfg = prep_cfg(cfg_path, dataset_path, model_path)
     cfg = add_particle_parser(cfg)
     event, output = instantiate_handlers(cfg, event_id)
@@ -287,15 +303,15 @@ def draw_grappa_inter_event(cfg_path, dataset_path, model_path, event_id):
 
     graphs = []
     graphs = create_grappa_inter_truth(event, output, graphs)
-    fig = save_graph(graphs, layout, f"plots/events/grappa_inter/truth/event_{event_id}.html")
+    fig = save_graph(graphs, layout, f"plots/events/grappa_inter/truth/{dir}/event_{event_id}.html")
 
     graph = []
     create_grappa_inter_particle_classification(event, output, graph)
-    fig = save_graph(graph, layout, f"plots/events/grappa_inter/prediction/particle_classification/event_{event_id}.html")
+    fig = save_graph(graph, layout, f"plots/events/grappa_inter/prediction/particle_classification/{dir}/event_{event_id}.html")
 
     graph = []
     create_grappa_inter_interaction_clustering(event, output, graph)
-    fig = save_graph(graph, layout, f"plots/events/grappa_inter/prediction/interaction_clustering/event_{event_id}.html")
+    fig = save_graph(graph, layout, f"plots/events/grappa_inter/prediction/interaction_clustering/{dir}/event_{event_id}.html")
 
     return fig
 
@@ -307,13 +323,19 @@ def save_graph(graph, layout, filename):
     return fig
 
 def main(event_id):
-    draw_grappa_shower_event(grappa_shower_paths["cfg_path"], grappa_shower_paths["dataset_path"], grappa_shower_paths["model_path"], event_id)
-    draw_grappa_track_event(grappa_track_paths["cfg_path"], grappa_track_paths["dataset_path"], grappa_track_paths["model_path"], event_id)
-    draw_grappa_inter_event(grappa_inter_paths["cfg_path"], grappa_inter_paths["dataset_path"], grappa_inter_paths["model_path"], event_id)
+    #50 edge length restriction
+    draw_grappa_shower_event(fifty_shower_paths["cfg_path"], fifty_shower_paths["dataset_path"], fifty_shower_paths["model_path"], event_id, fifty_shower_paths["dir"])
+    draw_grappa_track_event(fifty_track_paths["cfg_path"], fifty_track_paths["dataset_path"], fifty_track_paths["model_path"], event_id, fifty_shower_paths["dir"])
+    draw_grappa_inter_event(fifty_inter_paths["cfg_path"], fifty_inter_paths["dataset_path"], fifty_inter_paths["model_path"], event_id, fifty_shower_paths["dir"])
+
+    #no edge length restriction
+#    draw_grappa_shower_event(no_shower_paths["cfg_path"], no_shower_paths["dataset_path"], no_shower_paths["model_path"], event_id, no_shower_paths["dir"])
+#    draw_grappa_track_event(no_track_paths["cfg_path"], no_track_paths["dataset_path"], no_track_paths["model_path"], event_id, no_shower_paths["dir"])
+#    draw_grappa_inter_event(no_inter_paths["cfg_path"], no_inter_paths["dataset_path"], no_inter_paths["model_path"], event_id, no_shower_paths["dir"])
 
     return True
 
 if __name__ == '__main__':
     with Pool() as pool:
-        pool.map(main, range(32))
+        pool.map(main, range(5))
 
