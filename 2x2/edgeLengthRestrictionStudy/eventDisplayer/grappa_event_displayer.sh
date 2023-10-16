@@ -14,4 +14,5 @@
 #SBATCH --gpus a100:1
 
 singularity exec --bind $APP_DIR,/sdf/data/neutrino/kterao/dunend_train_prod/ --nv /sdf/group/neutrino/images/develop.sif bash -c "python3 grappa_event_displayer.py"
+singularity exec --bind $APP_DIR,/sdf/data/neutrino/kterao/dunend_train_prod/ --nv /sdf/group/neutrino/images/develop.sif bash -c "python3 grappa_event_displayer.py no"
 

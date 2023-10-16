@@ -323,19 +323,21 @@ def save_graph(graph, layout, filename):
     return fig
 
 def main(event_id):
-    #50 edge length restriction
-    draw_grappa_shower_event(fifty_shower_paths["cfg_path"], fifty_shower_paths["dataset_path"], fifty_shower_paths["model_path"], event_id, fifty_shower_paths["dir"])
-    draw_grappa_track_event(fifty_track_paths["cfg_path"], fifty_track_paths["dataset_path"], fifty_track_paths["model_path"], event_id, fifty_shower_paths["dir"])
-    draw_grappa_inter_event(fifty_inter_paths["cfg_path"], fifty_inter_paths["dataset_path"], fifty_inter_paths["model_path"], event_id, fifty_shower_paths["dir"])
 
-    #no edge length restriction
-#    draw_grappa_shower_event(no_shower_paths["cfg_path"], no_shower_paths["dataset_path"], no_shower_paths["model_path"], event_id, no_shower_paths["dir"])
-#    draw_grappa_track_event(no_track_paths["cfg_path"], no_track_paths["dataset_path"], no_track_paths["model_path"], event_id, no_shower_paths["dir"])
-#    draw_grappa_inter_event(no_inter_paths["cfg_path"], no_inter_paths["dataset_path"], no_inter_paths["model_path"], event_id, no_shower_paths["dir"])
+    if(sys.argv[1]=="no"):
+        #no edge length restriction
+        draw_grappa_shower_event(no_shower_paths["cfg_path"], no_shower_paths["dataset_path"], no_shower_paths["model_path"], event_id, no_shower_paths["dir"])
+        draw_grappa_track_event(no_track_paths["cfg_path"], no_track_paths["dataset_path"], no_track_paths["model_path"], event_id, no_shower_paths["dir"])
+        draw_grappa_inter_event(no_inter_paths["cfg_path"], no_inter_paths["dataset_path"], no_inter_paths["model_path"], event_id, no_shower_paths["dir"])
+    else:
+        #50 edge length restriction
+        draw_grappa_shower_event(fifty_shower_paths["cfg_path"], fifty_shower_paths["dataset_path"], fifty_shower_paths["model_path"], event_id, fifty_shower_paths["dir"])
+        draw_grappa_track_event(fifty_track_paths["cfg_path"], fifty_track_paths["dataset_path"], fifty_track_paths["model_path"], event_id, fifty_shower_paths["dir"])
+        draw_grappa_inter_event(fifty_inter_paths["cfg_path"], fifty_inter_paths["dataset_path"], fifty_inter_paths["model_path"], event_id, fifty_shower_paths["dir"])
 
     return True
 
 if __name__ == '__main__':
     with Pool() as pool:
-        pool.map(main, range(5))
+        pool.map(main, [9, 9483, 9484])
 
