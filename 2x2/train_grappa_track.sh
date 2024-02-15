@@ -1,6 +1,6 @@
 #!/bin/bash 
 
-#SBATCH --account=neutrino
+#SBATCH --account=neutrino:dune-ml
 #SBATCH --partition=ampere
 
 #SBATCH --job-name=train_grappa_track
