@@ -13,4 +13,4 @@
 #SBATCH --time=36:00:00 
 #SBATCH --gpus a100:1
 
-singularity exec --bind $APP_DIR,/sdf/data/neutrino/kterao/dunend_train_prod/ --nv /sdf/group/neutrino/images/develop.sif bash -c "python3 $MLRECO3D_PATH/bin/run.py grappa_shower_val.cfg"
+singularity exec --bind $APP_DIR,/sdf/data/neutrino/kterao/dunend_train_prod/ --nv /sdf/group/neutrino/images/larcv2_ub20.04-cuda11.6-pytorch1.13-larndsim.sif bash -c "python3 $MLRECO3D_PATH/bin/run.py grappa_shower_val.cfg"
